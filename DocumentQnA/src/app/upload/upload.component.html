@@ -1,0 +1,7 @@
+<mat-card>
+  <h2>Upload Document</h2>
+  <input type="file" (change)="onFileSelected($event)" />
+  <button mat-raised-button color="primary" (click)="upload()">Upload</button>
+
+  <p *ngIf="documentId">Document ID: {{ documentId }}</p>
+</mat-card>

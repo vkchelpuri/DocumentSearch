@@ -1,0 +1,25 @@
+<mat-card class="chat-container">
+  <h2>Document Assistant</h2>
+
+  <div class="chat-thread">
+    <div *ngFor="let msg of chatHistory" class="chat-row">
+      <div class="bubble user-bubble">
+        {{ msg.question }}
+      </div>
+      <div class="bubble ai-bubble">
+        {{ msg.answer }}
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-input-bar">
+    <mat-form-field appearance="outline" class="chat-input">
+      <mat-label for="questionInput">Type your question</mat-label>
+      <input matInput id="questionInput" [(ngModel)]="question" (keyup.enter)="ask()" />
+    </mat-form-field>
+
+    <button mat-icon-button color="primary" (click)="ask()" [disabled]="loading">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</mat-card>
