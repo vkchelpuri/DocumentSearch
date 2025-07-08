@@ -1,4 +1,5 @@
-﻿using DocumentQnA.Api.Data;
+﻿using DocumentFormat.OpenXml.InkML;
+using DocumentQnA.Api.Data;
 using DocumentQnA.Api.Models;
 using DocumentQnA.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -60,6 +61,7 @@ namespace DocumentQnA.Api.Controllers
             });
         }
 
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDocumentText(int id)
         {
@@ -74,5 +76,16 @@ namespace DocumentQnA.Api.Controllers
                 doc.UploadedAt
             });
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var doc = await _db.DocumentTexts.FindAsync(id);
+            if (doc == null) return NotFound();
+            _db.DocumentTexts.Remove(doc);
+            await _db.SaveChangesAsync();
+            return NoContent();
+        }
+
     }
 }

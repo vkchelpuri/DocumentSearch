@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppComponent } from './app.component';
 import { UploadComponent } from './upload/upload.component';
@@ -18,11 +19,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-
-
+import { DocumentsComponent } from './documents/documents.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
-  declarations: [AppComponent, UploadComponent, QaComponent],
+  declarations: [AppComponent, UploadComponent, QaComponent, DocumentsComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -38,7 +39,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatSelectModule,
     MatOptionModule,
     MatExpansionModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule,
+    MatTooltipModule
   ],
   bootstrap: [AppComponent]
 })

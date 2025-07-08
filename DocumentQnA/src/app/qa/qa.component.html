@@ -1,25 +1,40 @@
-<mat-card class="chat-container">
-  <h2>Document Assistant</h2>
-
-  <div class="chat-thread">
+<div class="qa-page">
+  <!-- Chat Thread Section -->
+  <div class="chat-thread" #chatThread>
     <div *ngFor="let msg of chatHistory" class="chat-row">
-      <div class="bubble user-bubble">
-        {{ msg.question }}
-      </div>
-      <div class="bubble ai-bubble">
-        {{ msg.answer }}
+      <!-- User Message Bubble -->
+      <div class="bubble user-bubble">{{ msg.question }}</div>
+
+      <!-- AI Answer with Source Caption -->
+      <div class="ai-response">
+        <div class="bubble ai-bubble">{{ msg.answer }}</div>
+        <!-- Display source document if available and not 'None' -->
+        <div class="caption" *ngIf="msg.sourceDocument && msg.sourceDocument !== 'None'">
+          Based on <strong>{{ msg.sourceDocument }}</strong>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="chat-input-bar">
-    <mat-form-field appearance="outline" class="chat-input">
-      <mat-label for="questionInput">Type your question</mat-label>
-      <input matInput id="questionInput" [(ngModel)]="question" (keyup.enter)="ask()" />
-    </mat-form-field>
+  <!-- Input Section -->
+  <!-- Apply 'centered' class if chat history is empty for intro message -->
+  <div [ngClass]="chatHistory.length === 0 ? 'input-wrapper centered' : 'input-bar'">
+    <!-- Introductory message for an empty chat -->
+    <p *ngIf="chatHistory.length === 0" class="intro-message">
+      👋 Ready when you are — ask a question and I’ll dig into your documents to help you out.
+    </p>
 
-    <button mat-icon-button color="primary" (click)="ask()" [disabled]="loading">
-      <mat-icon>send</mat-icon>
-    </button>
+    <div class="input-row">
+      <button class="delete-button" mat-icon-button *ngIf="chatHistory.length > 0" (click)="clearChatHandler()" matTooltip="Clear chat">
+        <mat-icon>refresh</mat-icon>
+      </button>
+
+      <input class="plain-input" [(ngModel)]="question" (keyup.enter)="ask()" placeholder="Ask something..." />
+
+      <button class="send-button" mat-icon-button color="primary" (click)="ask()"
+        [disabled]="loading || !question.trim()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
   </div>
-</mat-card>
+</div>

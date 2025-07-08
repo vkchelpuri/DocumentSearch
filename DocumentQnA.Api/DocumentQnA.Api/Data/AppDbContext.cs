@@ -10,6 +10,8 @@ namespace DocumentQnA.Api.Data
 
         public DbSet<DocumentText> Documents { get; set; }
         public DbSet<DocumentText> DocumentTexts { get; set; }
+        public DbSet<ChatHistory> ChatHistories { get; set; }
+
 
     }
 
