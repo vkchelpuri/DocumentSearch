@@ -1,6 +1,7 @@
 using DocumentQnA.Api.Data;
 using DocumentQnA.Api.Services;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +24,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ITextExtractor, TextExtractor>();
 builder.Services.AddHttpClient<GeminiService>();
-
-
 
 var app = builder.Build();
 

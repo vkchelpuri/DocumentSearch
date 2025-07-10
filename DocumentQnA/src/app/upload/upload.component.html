@@ -1,4 +1,5 @@
-<mat-card class="input-wrapper">
+<!-- <mat-card class="input-wrapper">
+  <button class="back-button" mat-icon-button routerLink="/documents"><mat-icon>arrow_back</mat-icon></button>
   <h1>Upload Document</h1>
   <input type="file" (change)="onFileSelected($event)" />
   <button class="upload-button" mat-raised-button color="primary" (click)="upload()" [disabled]="!selectedFile || loading">
@@ -6,4 +7,14 @@
   </button>
 
   <p *ngIf="documentId">Document ID: {{ documentId }}</p>
-</mat-card>
+</mat-card> -->
+
+
+<mat-card class="input-wrapper">
+  <button class="back-button" mat-icon-button routerLink="/documents"><mat-icon>arrow_back</mat-icon></button>
+  <h1>Upload Document</h1>
+  <input type="file" (change)="onFileSelected($event)" #fileInput /> <button class="upload-button" mat-raised-button color="primary" (click)="upload()" [disabled]="!selectedFile || loading">
+    Upload
+  </button>
+
+  </mat-card>

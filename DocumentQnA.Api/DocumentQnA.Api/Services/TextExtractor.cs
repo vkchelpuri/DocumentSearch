@@ -21,6 +21,7 @@ namespace DocumentQnA.Api.Services
                 ".csv" => await ExtractCsvAsync(filePath),
                 ".xlsx" => ExtractExcel(filePath),
                 ".docx" => ExtractDocx(filePath),
+                ".txt" => await ExtractTxtAsync(filePath),
                 _ => "Unsupported file format."
             };
         }
@@ -28,7 +29,6 @@ namespace DocumentQnA.Api.Services
         private string ExtractPdf(string filePath)
         {
             var sb = new StringBuilder();
-
             using var document = PdfDocument.Open(filePath);
             foreach (Page page in document.GetPages())
                 sb.AppendLine(page.Text);
@@ -39,9 +39,9 @@ namespace DocumentQnA.Api.Services
         private async Task<string> ExtractCsvAsync(string filePath)
         {
             var sb = new StringBuilder();
-
             using var reader = new StreamReader(filePath);
             using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+
             var records = new List<dynamic>();
             await foreach (var record in csv.GetRecordsAsync<dynamic>())
             {
@@ -59,20 +59,26 @@ namespace DocumentQnA.Api.Services
 
         private string ExtractExcel(string filePath)
         {
-            OfficeOpenXml.ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
             var sb = new StringBuilder();
-            using var package = new ExcelPackage(new FileInfo(filePath));
+            var fileInfo = new FileInfo(filePath);
+            using var package = new ExcelPackage(fileInfo);
 
             foreach (var sheet in package.Workbook.Worksheets)
             {
                 sb.AppendLine($"Sheet: {sheet.Name}");
+
+                if (sheet.Dimension == null)
+                {
+                    sb.AppendLine("(Empty sheet)");
+                    continue;
+                }
+
                 for (int row = sheet.Dimension.Start.Row; row <= sheet.Dimension.End.Row; row++)
                 {
                     for (int col = sheet.Dimension.Start.Column; col <= sheet.Dimension.End.Column; col++)
                     {
-                        var cellValue = sheet.Cells[row, col].Text;
-                        sb.Append($"{cellValue}\t");
+                        var cell = sheet.Cells[row, col]?.Text ?? "";
+                        sb.Append($"{cell}\t");
                     }
                     sb.AppendLine();
                 }
@@ -81,17 +87,20 @@ namespace DocumentQnA.Api.Services
             return sb.ToString();
         }
 
-
         private string ExtractDocx(string filePath)
         {
             var sb = new StringBuilder();
-
             using var wordDoc = WordprocessingDocument.Open(filePath, false);
             var body = wordDoc.MainDocumentPart?.Document.Body;
             if (body != null)
                 sb.AppendLine(body.InnerText);
 
             return sb.ToString();
+        }
+
+        private async Task<string> ExtractTxtAsync(string filePath)
+        {
+            return await File.ReadAllTextAsync(filePath);
         }
     }
 }

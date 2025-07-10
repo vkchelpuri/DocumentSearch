@@ -21,9 +21,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { DocumentsComponent } from './documents/documents.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DialogComponent } from './dialog/dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [AppComponent, UploadComponent, QaComponent, DocumentsComponent],
+  declarations: [AppComponent, UploadComponent, QaComponent, DocumentsComponent, DialogComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -41,7 +43,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatExpansionModule,
     MatIconModule,
     MatTableModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule
   ],
   bootstrap: [AppComponent]
 })

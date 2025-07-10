@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: 'upload', component: UploadComponent },
   { path: 'qa', component: QaComponent },
   { path: 'documents', component: DocumentsComponent },
-  { path: '', redirectTo: '/documents', pathMatch: 'full' }
+  { path: '', redirectTo: '/qa', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -12,7 +12,7 @@ namespace DocumentQnA.Api.Controllers
     public class QuestionController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly GeminiService _gemini;
+        private readonly GeminiService _gemini;     
 
         public QuestionController(AppDbContext context, GeminiService gemini)
         {

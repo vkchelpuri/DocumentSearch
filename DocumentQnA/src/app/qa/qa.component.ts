@@ -48,12 +48,19 @@ ngOnInit(): void {
   /**
    * Saves the current chat history to the server.
    */
-  saveChatToServer(): void {
-    this.api.saveChat(this.chatHistory).subscribe({
-      next: () => console.log('Chat saved.'),
-      error: err => console.error('Save failed', err)
-    });
-  }
+saveChatToServer(): void {
+  const sanitizedChat = this.chatHistory.map(({ question, answer, sourceDocument }) => ({
+    question,
+    answer,
+    sourceDocument
+  }));
+
+  this.api.saveChat(sanitizedChat).subscribe({
+    next: () => console.log('Chat saved.'),
+    error: err => console.error('Save failed', err)
+  });
+}
+
 
   clearLocalChat(): void {
   this.chatHistory = [];
