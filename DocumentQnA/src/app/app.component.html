@@ -1,0 +1,49 @@
+<!-- src/app/app.component.html -->
+
+<!-- Toolbar is now conditionally rendered based on login status -->
+<mat-toolbar color="primary" class="app-toolbar" *ngIf="authService.isLoggedIn() | async">
+  <!-- Logo next to app name -->
+  <span class="title-section">
+    <img src="assets/ai-icon.png" alt="AI Icon" class="ai-icon" />
+    DOCUMENT SEARCH AI
+  </span>
+
+  <span class="spacer"></span>
+
+  <!-- Navigation links -->
+  <a mat-button routerLink="/dashboard">Dashboard</a>
+  <a mat-button routerLink="/documents">Documents</a> <!-- No need for *ngIf here, AuthGuard handles it -->
+  <a mat-button routerLink="/qa">Chat</a> <!-- No need for *ngIf here, AuthGuard handles it -->
+  <!-- Uncomment and adjust if you want the upload link back -->
+  <!-- <a mat-button routerLink="/upload"
+       *ngIf="authService.hasPermission('CanUploadDocuments') || authService.hasRole('Admin')">
+      Upload
+  </a> -->
+
+  <!-- Account Bubble with Context Menu -->
+  <button mat-icon-button [matMenuTriggerFor]="accountMenu" aria-label="User account menu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #accountMenu="matMenu">
+    <!-- Display Username -->
+    <div class="user-info-display" *ngIf="username">
+      <mat-icon>person</mat-icon>
+      <span>{{ username }}</span>
+    </div>
+    <!-- Add a divider for separation -->
+    <mat-divider *ngIf="username"></mat-divider>
+
+    <button mat-menu-item *ngIf="authService.hasRole('Admin')" routerLink="/admin-dashboard">
+      <mat-icon>admin_panel_settings</mat-icon>
+      <span>Admin Dashboard</span>
+    </button>
+    <button mat-menu-item (click)="authService.logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<!-- The router-outlet will display login/register pages when not logged in,
+     and other protected pages when logged in and toolbar is visible. -->
+<router-outlet></router-outlet>

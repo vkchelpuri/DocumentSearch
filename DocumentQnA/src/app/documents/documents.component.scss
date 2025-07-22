@@ -1,0 +1,94 @@
+.documents-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  padding: 1.5rem;
+  min-height: 80vh;
+  overflow: hidden; // ⛔ Prevent page scroll
+}
+
+.documents-card {
+  width: 100%;
+  max-width: 860px;
+  padding: 2.5rem;
+  border-radius: 50px;
+  background-color: aliceblue;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
+
+  button {
+    white-space: nowrap;
+  }
+}
+
+// 🔽 Scroll container around table
+.table-scroll-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 0.5rem;
+}
+
+.documents-table {
+  width: 100%;
+  table-layout: fixed;
+  display: table;
+  margin-top: 0.5rem;
+}
+
+.mat-raised-button {
+  color: aqua;
+}
+
+.mat-mdc-raised-button.mat-primary {
+  --mdc-protected-button-container-color: darkslategray;
+  color: white;
+}
+
+.mat-mdc-header-cell {
+  text-align: left;
+  vertical-align: middle;
+}
+
+.empty-state {
+  text-align: center;
+  color: #666;
+  padding: 48px 24px;
+
+  .empty-icon {
+    font-size: 64px;
+    color: #ccc;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  button {
+    margin-top: 8px;
+    background-color: darkslategray;
+    color: #FFF;
+    height: 50px;
+    width: 300px;
+    border-radius: 50px;
+  }
+}
+.mat-mdc-header-row {
+    background-color:cadetblue !important;
+}

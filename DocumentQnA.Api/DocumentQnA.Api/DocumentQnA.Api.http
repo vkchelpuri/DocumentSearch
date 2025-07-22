@@ -1,0 +1,6 @@
+@DocumentQnA.Api_HostAddress = http://localhost:5053
+
+GET {{DocumentQnA.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

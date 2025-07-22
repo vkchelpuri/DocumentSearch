@@ -1,0 +1,73 @@
+/* src/app/app.component.scss */
+
+.app-toolbar {
+  padding: 0 16px; /* Default Material toolbar padding */
+}
+
+.spacer {
+  flex: 1 1 auto; /* Pushes elements to the right */
+}
+
+/* Style for navigation buttons in toolbar */
+.app-toolbar a.mat-button {
+  margin: 0 8px;
+  color: white; /* Ensure text is visible on primary toolbar */
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Style for the account icon button */
+.app-toolbar button.mat-icon-button {
+  color: white;
+}
+
+/* Basic styling for the main content area below the toolbar */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+router-outlet + * {
+  flex: 1; /* Allows the content area to grow and fill space */
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-toolbar.mat-primary {
+  --mat-toolbar-container-background-color: darkslategrey;
+}
+
+.title-section {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.ai-icon {
+  height: 45px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* Styling for user info in the MatMenu (from previous step) */
+.user-info-display {
+  padding: 8px 16px; /* Padding inside the menu item */
+  display: flex;
+  align-items: center;
+  font-weight: 500; /* Slightly bolder for username */
+  color: #333; /* Darker text for readability */
+  cursor: default; /* Indicate it's not clickable */
+
+  mat-icon {
+    margin-right: 8px; /* Space between icon and username */
+    color: #757575; /* A subtle color for the icon */
+  }
+}
+
+/* Style for the mat-divider in the menu (from previous step) */
+.mat-menu-panel .mat-divider {
+  margin: 5px 0; /* Add some vertical space around the divider */
+}

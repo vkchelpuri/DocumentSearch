@@ -1,0 +1,26 @@
+.input-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    width: -webkit-fill-available;
+    background: aliceblue;
+    border-radius: 50px;
+    padding: 50px;
+    text-align: center;
+}
+
+.upload-button{
+    height: 50px;
+    margin-top: 15px;
+    border-radius: 50px;
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+    background-color: darkslategray;
+}
+
+.back-button{
+    background-color: #6495ed;
+}

@@ -1,0 +1,74 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.opendb
+*.VC.db
+*.sdf
+*.vshost.*
+*.csproj.user
+*.resharper
+*.dotSettings
+*.pidb
+*.booproj
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# NuGet
+*.nupkg
+
+# Node.js
+node_modules/
+
+# ASP.NET Core configuration (careful with wildcards!)
+appsettings.json
+appsettings.*.json
+config.json
+secrets.json
+
+# SQLite files
+*.db
+*.sqlite
+*.sqlite3
+
+# User Secrets
+.secrets/
+
+# Sensitive files
+*.env
+.env
+*.pfx
+*.cer
+*.key
+*.pem
+
+# Logs
+*.log
+logs/
+
+# Test results
+TestResults/
+
+# Coverage
+coverage/
+*.coverage
+
+# OS/system files
+.DS_Store
+Thumbs.db
+
+# Backup/temp files
+*.bak
+*.tmp
+*.swp

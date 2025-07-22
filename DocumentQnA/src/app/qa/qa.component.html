@@ -1,0 +1,33 @@
+<div class="qa-page">
+  <div class="chat-thread" #chatThread>
+    <div *ngFor="let msg of chatHistory" class="chat-row">
+      <div class="bubble user-bubble">{{ msg.question }}</div>
+
+      <div class="ai-response">
+        <div class="bubble ai-bubble" [innerHTML]="msg.answer | markdownToHtml"></div>
+        <div class="caption" *ngIf="msg.sourceDocument && msg.sourceDocument !== 'None' && msg.sourceDocument.trim() !== ''">
+          Based on <strong>{{ msg.sourceDocument }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div [ngClass]="chatHistory.length === 0 ? 'input-wrapper centered' : 'input-bar'">
+    <p *ngIf="chatHistory.length === 0" class="intro-message">
+      👋 Ready when you are — ask a question and I’ll dig into your documents to help you out.
+    </p>
+
+    <div class="input-row">
+      <button class="delete-button" mat-icon-button *ngIf="chatHistory.length > 0" (click)="clearChatHandler()" matTooltip="Clear chat">
+        <mat-icon>refresh</mat-icon>
+      </button>
+
+      <input class="plain-input" [(ngModel)]="question" (keyup.enter)="ask()" placeholder="Ask something..." />
+
+      <button class="send-button" mat-icon-button color="primary" (click)="ask()"
+        [disabled]="loading || !question.trim()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+/* src/app/admin-dashboard/admin-dashboard.component.scss */
+.admin-dashboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align to top */
+  min-height: calc(100vh - 64px); /* Adjust for toolbar height */
+  background-color: #f0f2f5;
+  padding: 20px;
+}
+
+.admin-dashboard-card {
+  max-width: 900px;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+mat-card-header {
+  margin-bottom: 20px;
+  .mat-card-title {
+    font-size: 1.8em;
+    font-weight: 600;
+    color: #333;
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  p {
+    margin-top: 10px;
+    color: #666;
+  }
+}
+
+.error-message {
+  color: #f44336; /* Material Design Red */
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.success-message {
+  color: #4CAF50; /* Material Design Green */
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.refresh-button {
+  margin-bottom: 20px;
+  width: auto; /* Allow button to size naturally */
+  display: block; /* Make it a block element to control margin */
+  margin-left: auto; /* Center or align right */
+  margin-right: auto;
+}
+
+.user-table-container {
+  overflow-x: auto; /* Enable horizontal scrolling for small screens */
+}
+
+.full-width-table {
+  width: 100%;
+  min-width: 600px; /* Ensure table doesn't get too narrow */
+}
+
+/* Table header styling */
+th.mat-header-cell {
+  background-color: #e0e0e0; /* Light grey header */
+  font-weight: bold;
+  color: #333;
+}
+
+/* Table cell styling */
+td.mat-cell {
+  padding: 8px 16px;
+}
+
+/* Checkbox alignment */
+td.mat-cell mat-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .admin-dashboard-card {
+    margin: 10px;
+    padding: 15px;
+  }
+  mat-card-header .mat-card-title {
+    font-size: 1.5em;
+  }
+}

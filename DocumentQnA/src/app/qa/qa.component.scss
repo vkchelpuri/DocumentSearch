@@ -1,0 +1,172 @@
+.qa-page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 65px); /* Full viewport height minus header/nav height */
+  box-sizing: border-box;
+  position: relative;
+  background-color: #fafafa; /* Light background for the page */
+}
+
+/* Chat thread container - scrollable area */
+.chat-thread {
+  flex: 1; /* Allows it to take available vertical space */
+  overflow-y: auto; /* Enables vertical scrolling */
+  padding: 1% 10%; /* Horizontal padding for chat bubbles */
+  /* IMPORTANT: Add padding-bottom to ensure the last message is not hidden
+     by the sticky input bar. Adjust this value based on the actual height
+     of your .input-bar (approx. 150px or 9.375rem based on 16px/rem) */
+  padding-bottom: 150px;
+  scroll-behavior: smooth; /* Smooth scrolling animation */
+}
+
+/* Individual chat message row */
+.chat-row {
+  display: flex;
+  flex-direction: column; /* Stacks bubbles vertically within a row */
+}
+
+/* Common bubble styles */
+.bubble {
+  width: fit-content; /* Bubble width adapts to content */
+  margin: 0.5rem 0; /* Vertical spacing between bubbles */
+  max-width: 80%; /* Max width for bubbles */
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  word-wrap: break-word; /* Ensures long words break to prevent overflow */
+  word-break: break-word; /* More aggressive word breaking */
+}
+
+/* User message bubble styles */
+.user-bubble {
+  background-color: #1976d2; /* Primary blue color */
+  color: white;
+  align-self: flex-end; /* Aligns user bubbles to the right */
+}
+
+/* AI message bubble styles */
+.ai-bubble {
+  background-color: #f1f1f1; /* Light grey background */
+  color: black;
+  align-self: flex-start; /* Aligns AI bubbles to the left */
+}
+
+/* Wrapper for AI response and its caption */
+.ai-response {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligns content to the left */
+  font-style: italic;
+}
+
+/* Source document caption for AI responses */
+.caption {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 4px;
+  margin-left: 8px; /* Indent slightly from the bubble */
+  align-self: flex-start;
+}
+
+/* Input wrapper for the initial state (centered) */
+.input-wrapper {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the element */
+  z-index: 10;
+  min-width: 300px;
+  border-radius: 50px; /* More rounded corners for the initial state */
+  background: aliceblue;
+  /* Common styles for input-wrapper and input-bar */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 3rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Input bar for active chat state (sticky at bottom) */
+.input-bar {
+  border-top: 1px solid #ccc;
+  position: sticky; /* Makes it stick to the bottom */
+  bottom: 0;
+  z-index: 100; /* Ensures it stays on top of chat content */
+  width: 100%; /* Takes full width */
+  box-sizing: border-box; /* Includes padding in the width calculation */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: darkslategray;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Introductory message for empty chat */
+.intro-message {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  line-height: normal;
+}
+
+/* Input field styles */
+.plain-input {
+  flex: 1; /* Allows input to grow and shrink */
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none; /* Removes default focus outline */
+  height: 30px; /* Fixed height for the input */
+}
+
+/* Send button styles */
+.send-button {
+  background-color: #1e90ff;
+  color: #fff;
+  border-radius: 50%; /* Make it circular */
+  width: 48px; /* Fixed width for icon button */
+  height: 48px; /* Fixed height for icon button */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Prevents button from shrinking */
+
+  &:disabled {
+    background-color: #ccc;
+    color: #fff;
+    cursor: not-allowed; /* Indicate disabled state */
+  }
+
+  mat-icon {
+    color: #fff;
+  }
+}
+
+.delete-button{
+  background-color: #cd5c5c;
+  mat-icon{
+    color: #fff;
+  }
+}
+.delete-button:hover {
+  background-color: #e0351b;
+}
+
+.delete-button:active {
+  background-color: #c24736;
+}
+/* Row containing input field and send button */
+.input-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 80%;
+}

@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%; /* Ensure html and body take full viewport height */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  overflow: hidden; /* Hide scrollbars for the entire page */
+}
+
+/* Optional: If you want a subtle scrollbar for specific overflowing content */
+/* For example, if you have a specific div that should scroll internally: */
+/*
+.scrollable-content {
+  overflow-y: auto;
+  height: 100%; // Or a fixed height
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+*/
+
+/* Angular Material theme imports (keep your existing imports here) */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
