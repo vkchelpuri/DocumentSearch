@@ -1,4 +1,3 @@
-<!-- src/app/dashboard/dashboard.component.html -->
 <div class="dashboard-container">
   <mat-card class="dashboard-card">
     <mat-card-header>
@@ -9,16 +8,14 @@
       <p *ngIf="username">Hello, {{ username }}!</p>
       <p>This is your personalized dashboard. From here, you can access various features of the application.</p>
       <div class="dashboard-actions">
-        <button mat-raised-button color="primary" routerLink="/documents" *ngIf="authService.isLoggedIn() | async">View Documents</button>
+        <button mat-raised-button color="primary" routerLink="/documents" *ngIf="authService.isLoggedIn() | async">View
+          Documents</button>
         <button mat-raised-button color="accent" routerLink="/qa">Start Chat</button>
-        <!-- Only show Upload button if user has permission or is Admin -->
         <button mat-raised-button color="warn" routerLink="/upload"
-                *ngIf="authService.hasPermission('CanUploadDocuments') || authService.hasRole('Admin')">
+          *ngIf="authService.hasPermission('CanUploadDocuments') || authService.hasRole('Admin')">
           Upload Document
         </button>
-        <!-- Example for an Admin-only button -->
-        <button mat-raised-button color="basic" routerLink="/admin-dashboard"
-                *ngIf="authService.hasRole('Admin')">
+        <button mat-raised-button color="basic" routerLink="/admin-dashboard" *ngIf="authService.hasRole('Admin')">
           Admin Dashboard
         </button>
       </div>

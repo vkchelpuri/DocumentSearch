@@ -15,10 +15,9 @@ mat-dialog-actions {
     height: 40px;
     font-weight: 500;
     text-transform: none;
-    border-radius: 8px; // Optional: smooth button edges
+    border-radius: 8px; 
   }
 
-  // Style for "Continue Uploading" button
   .mat-mdc-outlined-button:not(:disabled) {
     color: white;
     background-color: darkgray;
@@ -29,7 +28,6 @@ mat-dialog-actions {
     }
   }
 
-  // Style for "Go to Documents" button
   .mat-mdc-raised-button.mat-primary {
     background-color: #6495ed;
     color: white;

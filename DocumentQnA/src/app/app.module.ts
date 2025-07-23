@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Ensure FormsModule is here
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -12,8 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatCheckboxModule } from '@angular/material/checkbox'; // Crucial for mat-checkbox
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // For mat-spinner
+import { MatCheckboxModule } from '@angular/material/checkbox'; 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; 
 import { MatDividerModule } from '@angular/material/divider';
 
 import { AppComponent } from './app.component';
@@ -35,10 +35,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthService } from './auth/auth.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
 
-// IMPORT FOR MARKDOWN PIPE
 import { MarkdownToHtmlPipe } from './pipes/markdown-to-html.pipe';
-
-// NEW IMPORT FOR ADMIN DASHBOARD
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 @NgModule({
@@ -56,7 +53,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
   ],
   imports: [
     BrowserModule,
-    FormsModule, // Ensure FormsModule is imported for ngModel
+    FormsModule, 
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -75,7 +72,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     MatTooltipModule,
     MatDialogModule,
     MatMenuModule,
-    MatCheckboxModule, // Ensure this is here
+    MatCheckboxModule, 
     MatProgressSpinnerModule,
     MatDividerModule
   ],

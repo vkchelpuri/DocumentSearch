@@ -1,8 +1,7 @@
-// src/app/register/register.component.ts
 import { Component } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http'; // Import HttpErrorResponse
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -15,14 +14,10 @@ export class RegisterComponent {
   errorMessage: string = '';
   successMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
-  /**
-   * Handles the registration form submission.
-   * Calls the AuthService to register the new user.
-   */
+
   onRegister(): void {
-    // Clear any previous messages
     this.errorMessage = '';
     this.successMessage = '';
 
@@ -34,14 +29,12 @@ export class RegisterComponent {
             this.router.navigate(['/login']);
           }, 2000);
         },
-        error: (err: HttpErrorResponse) => { // Explicitly type 'err'
+        error: (err: HttpErrorResponse) => {
           console.error('Registration error:', err);
 
           let friendlyErrorMessage = 'Registration failed. Please try again.';
 
-          // Check for specific Identity validation errors
           if (err.status === 400 && err.error && err.error.errors) {
-            // Iterate through the errors object to get specific messages
             const errorDetails: string[] = [];
             for (const key in err.error.errors) {
               if (err.error.errors.hasOwnProperty(key)) {
@@ -49,10 +42,9 @@ export class RegisterComponent {
               }
             }
             if (errorDetails.length > 0) {
-              friendlyErrorMessage = errorDetails.join('; '); // Join multiple errors
+              friendlyErrorMessage = errorDetails.join('; ');
             }
           } else if (err.error && err.error.message) {
-            // For general messages returned directly in 'Message' property
             friendlyErrorMessage = err.error.message;
           }
 

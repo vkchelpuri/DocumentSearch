@@ -1,10 +1,9 @@
-/* src/app/login/login.component.scss */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 64px); /* Adjust for toolbar height if present */
-  background-color: #f0f2f5; /* Light background */
+  min-height: calc(100vh - 64px); 
+  background-color: #f0f2f5; 
   padding: 20px;
 }
 
@@ -19,19 +18,19 @@
 
 .login-card-header {
   display: flex;
-  flex-direction: column; /* Stack logo and title vertically */
-  align-items: center; /* Center horizontally */
+  flex-direction: column; 
+  align-items: center; 
   margin-bottom: 20px;
   .mat-card-title {
     font-size: 1.8em;
     font-weight: 600;
     color: #333;
-    margin-top: 10px; /* Space between logo and title */
+    margin-top: 10px; 
   }
 }
 
 .login-logo {
-  height: 100px; /* Larger logo for the login page */
+  height: 100px; 
   margin-bottom: 10px;
 }
 
@@ -39,7 +38,7 @@ mat-card-content {
   form {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Space between form fields */
+    gap: 15px; 
   }
 }
 
@@ -55,7 +54,7 @@ button[type="submit"] {
 }
 
 .error-message {
-  color: #f44336; /* Material Design Red */
+  color: #f44336; 
   text-align: center;
   margin-top: 10px;
   font-size: 0.9em;
@@ -65,12 +64,12 @@ mat-card-actions {
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  padding-bottom: 0 !important; /* Override default padding */
+  padding-bottom: 0 !important; 
   p {
     font-size: 0.9em;
     color: #555;
     a {
-      color: #007bff; /* Link color */
+      color: #007bff; 
       text-decoration: none;
       &:hover {
         text-decoration: underline;
@@ -79,7 +78,6 @@ mat-card-actions {
   }
 }
 
-/* Responsive adjustments */
 @media (max-width: 600px) {
   .login-card {
     margin: 10px;

@@ -1,15 +1,10 @@
-﻿// Controllers/ChatController.cs
-using DocumentQnA.Api.Data;
+﻿using DocumentQnA.Api.Data;
 using DocumentQnA.Api.Models;
-using DocumentQnA.Api.Services; // Required for IGeminiServices
+using DocumentQnA.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization; // Required for [Authorize]
-using System.Security.Claims; // Required for accessing user claims
-using System.Linq; // Required for .Where() and .OrderByDescending()
-using System; // Required for Exception
-using System.Collections.Generic; // Required for List
-using System.Threading.Tasks; // Required for Task
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DocumentQnA.Api.Controllers
 {
@@ -108,7 +103,6 @@ namespace DocumentQnA.Api.Controllers
                 }
 
 
-                // Order by similarity and take the top N
                 var topNDocuments = relevantDocuments
                                     .OrderByDescending(d => d.Similarity)
                                     .Take(TOP_N_DOCUMENTS)
@@ -154,7 +148,6 @@ answer: Hello! How can I assist you today?
 Here are the documents for your reference:
 ";
 
-                // Construct the full prompt to send to Gemini
                 string fullPrompt = systemInstruction;
 
                 if (!string.IsNullOrWhiteSpace(combinedContext))
@@ -185,7 +178,7 @@ Here are the documents for your reference:
                     UserId = userId,
                     Question = questionDto.Query,
                     Answer = geminiAnswer,
-                    SourceDocument = sourceDocumentNames, // Use the names of the top N documents as source
+                    SourceDocument = sourceDocumentNames, // Use the names of the top N documents as sourc
                     Timestamp = DateTime.UtcNow
                 };
 

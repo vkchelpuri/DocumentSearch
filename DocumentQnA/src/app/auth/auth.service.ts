@@ -1,4 +1,3 @@
-// src/app/auth/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -95,7 +94,6 @@ export class AuthService {
     if (decodedToken) {
       const claimValue = decodedToken[claimType];
 
-      // Removed console.group and console.log statements for production
       let result = false;
 
       if (Array.isArray(claimValue)) {
@@ -120,7 +118,6 @@ export class AuthService {
     if (decodedToken) {
       const roles = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
-      // Removed console.group and console.log statements for production
       let result = false;
       if (Array.isArray(roles)) {
         result = roles.includes(roleName);

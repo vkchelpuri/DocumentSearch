@@ -21,8 +21,6 @@ namespace DocumentQnA.Api.Services
         /// Initializes a new instance of the <see cref="GeminiServices"/> class.
         /// This constructor is used at RUNTIME when HttpClient is available via dependency injection.
         /// </summary>
-        /// <param name="http">The HttpClient instance for making API requests.</param>
-        /// <param name="config">The application's configuration to retrieve the Gemini API key.</param>
         public GeminiServices(HttpClient http, IConfiguration config)
         {
             _http = http;
@@ -35,7 +33,6 @@ namespace DocumentQnA.Api.Services
         /// This constructor is primarily for DESIGN-TIME operations (e.g., EF Core migrations)
         /// where HttpClient might not be resolvable by the service provider.
         /// </summary>
-        /// <param name="config">The application's configuration to retrieve the Gemini API key.</param>
         public GeminiServices(IConfiguration config)
         {
             // For design-time, create a basic HttpClient. Not for actual runtime use.
@@ -48,8 +45,6 @@ namespace DocumentQnA.Api.Services
         /// Generates content (e.g., an answer) and potentially identifies a source document
         /// based on a given prompt using the Gemini AI model.
         /// </summary>
-        /// <param name="prompt">The input prompt or question for the Gemini model.</param>
-        /// <returns>A tuple containing the generated answer (string) and the source document (string).</returns>
         public async Task<(string answer, string sourceDocument)> GetAnswerWithDocumentAsync(string prompt)
         {
             if (_http == null)
@@ -118,7 +113,7 @@ namespace DocumentQnA.Api.Services
 
             var lines = fullText?.Split('\n', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
             var answer = "No answer";
-            var sourceDocument = "None"; // Default to "None"
+            var sourceDocument = "None";
 
             var answerLine = lines.FirstOrDefault(l => l.StartsWith("answer:", StringComparison.OrdinalIgnoreCase));
             if (answerLine != null)
@@ -146,10 +141,6 @@ namespace DocumentQnA.Api.Services
         /// <summary>
         /// Generates a vector embedding for a given text using the Gemini embedding model.
         /// </summary>
-        /// <param name="text">The text for which to generate the embedding.</param>
-        /// <returns>A double array representing the vector embedding.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if the input text is null or empty.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if Gemini API key is not configured or API call fails.</exception>
         public async Task<double[]> GenerateEmbeddingAsync(string text)
         {
             if (string.IsNullOrEmpty(text))

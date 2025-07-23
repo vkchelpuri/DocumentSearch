@@ -40,18 +40,17 @@ mat-card-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 15px; /* Space between buttons */
+  gap: 15px; 
   margin-top: 30px;
 
   button {
     padding: 12px 25px;
     font-size: 1.05em;
     border-radius: 5px;
-    min-width: 180px; /* Ensure buttons have a minimum width */
+    min-width: 180px; 
   }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .dashboard-card {
     margin: 15px;
@@ -72,7 +71,7 @@ mat-card-content {
 }
 
 .login-logo {
-  height: 100px; /* Larger logo for the login page */
+  height: 100px; 
   margin-bottom: 10px;
   width: 100px;
   align-self: anchor-center;

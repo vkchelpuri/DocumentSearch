@@ -1,13 +1,14 @@
 import { Component, ViewChild, ElementRef, OnInit, AfterViewChecked } from '@angular/core';
 import { ApiService } from '../api.service';
-import { HttpErrorResponse } from '@angular/common/http'; // Import HttpErrorResponse
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface QAPair {
   question: string;
   answer: string;
-  sourceDocument?: string; // Make sourceDocument optional as it might not always be present
-  timestamp?: Date; // Add timestamp if you want to display it
-  userId?: string; // Add userId if you want to display it or filter
+  sourceDocument?: string;
+  timestamp?: Date;
+  userId?: string;
+  loading?: boolean; // 🆕 New flag for bubble animation
 }
 
 @Component({
@@ -21,125 +22,92 @@ export class QaComponent implements OnInit, AfterViewChecked {
   loading = false;
   @ViewChild('chatThread') chatThread!: ElementRef;
 
-  // Flag to control scrolling after DOM updates
   private shouldScroll = false;
 
   constructor(private api: ApiService) { }
 
   ngOnInit(): void {
-    // UPDATED: Changed loadChat() to getChatHistory()
     this.api.getChatHistory().subscribe({
-      next: (res: QAPair[]) => { // Explicitly type 'res'
+      next: (res: QAPair[]) => {
         this.chatHistory = res;
-        // Ensure scrolling happens after the DOM is updated
         setTimeout(() => this.scrollToBottom(), 0);
       },
-      error: (err: HttpErrorResponse) => { // Explicitly type 'err'
+      error: (err: HttpErrorResponse) => {
         console.error('Failed to load chat:', err);
-        // Optionally display an error message to the user
       }
     });
   }
 
-  /**
-   * Lifecycle hook called after every check of the component's view and its child views.
-   * Used here to ensure scrolling happens after the DOM has been updated with new messages.
-   */
   ngAfterViewChecked(): void {
     if (this.shouldScroll) {
       this.scrollToBottom();
-      this.shouldScroll = false; // Reset the flag to prevent continuous scrolling
+      this.shouldScroll = false;
     }
   }
 
-  // REMOVED: saveChatToServer() method as chat saving is now handled by the backend's ask endpoint.
-  // The backend's ChatController.AskQuestion endpoint now saves the Q&A pair automatically.
-
-  /**
-   * Clears the local chat history and calls the backend to clear server-side chat.
-   */
   clearLocalChat(): void {
-    this.chatHistory = []; // Clear UI immediately for responsiveness
-    // UPDATED: Changed clearChat() to clearChatHistory()
+    this.chatHistory = [];
     this.api.clearChatHistory().subscribe({
       next: () => console.log('🗑️ Server chat cleared.'),
-      error: (err: HttpErrorResponse) => { // Explicitly type 'err'
+      error: (err: HttpErrorResponse) => {
         console.error('❌ Failed to clear server chat:', err);
-        // Optionally re-fetch chat history or display an error if clearing failed
       }
     });
   }
 
-  /**
-   * Handler for the clear chat button, includes a confirmation dialog.
-   */
   clearChatHandler(): void {
     if (confirm('This will delete all saved chats. Are you sure?')) {
-      this.clearLocalChat(); // clears UI and calls backend
+      this.clearLocalChat();
     }
   }
 
-  /**
-   * Handles asking a new question to the AI.
-   */
   ask(): void {
     if (!this.question.trim() || this.loading) return;
 
     const userMessage = this.question.trim();
+    this.loading = true;
+    this.shouldScroll = true;
+    this.question = '';
 
-    // Add user's question to chat history immediately
+    // 🆕 Push a bubble with loading=true
     this.chatHistory.push({
       question: userMessage,
-      answer: '', // Placeholder for AI's answer
-      sourceDocument: '' // Placeholder for source document
+      answer: '',
+      sourceDocument: '',
+      loading: true
     });
 
-    this.loading = true; // Set loading state
-    this.question = ''; // Clear input field
-
-    // Set shouldScroll flag to true to trigger scrolling after DOM update
-    this.shouldScroll = true;
-
-    // Optional delay for natural feel (e.g., 500ms)
     setTimeout(() => {
-      // UPDATED: Changed askGlobalQuestion() to askChatQuestion()
       this.api.askChatQuestion(userMessage).subscribe({
-        next: (res: { response: string; sourceDocument: string }) => { // Explicitly type 'res'
+        next: (res: { response: string; sourceDocument: string }) => {
           const lastIndex = this.chatHistory.length - 1;
 
-          // Update the last entry with the AI's answer and source document
           this.chatHistory[lastIndex].answer = res.response?.trim() || 'No answer received.';
           this.chatHistory[lastIndex].sourceDocument =
             res.sourceDocument?.trim().toLowerCase() !== 'none'
               ? res.sourceDocument.trim()
               : '';
 
-          // REMOVED: saveChatToServer() call here, as saving is handled by backend's ask endpoint.
-
-          this.loading = false; // End loading state
-          this.shouldScroll = true; // Ensure scroll after update
+          this.chatHistory[lastIndex].loading = false; // 🔁 Stop animation
+          this.loading = false;
+          this.shouldScroll = true;
         },
-        error: (err: HttpErrorResponse) => { // Explicitly type 'err'
+        error: (err: HttpErrorResponse) => {
           console.error('Gemini API error:', err);
 
           const lastIndex = this.chatHistory.length - 1;
           this.chatHistory[lastIndex].answer = '⚠️ Error getting response.';
-          this.chatHistory[lastIndex].sourceDocument = ''; // Clear source on error
+          this.chatHistory[lastIndex].sourceDocument = '';
+          this.chatHistory[lastIndex].loading = false;
 
-          this.loading = false; // End loading state
-          this.shouldScroll = true; // Ensure scroll even on error
-          // Optionally display an error message to the user in the UI
+          this.loading = false;
+          this.shouldScroll = true;
         }
       });
-    }, 500); // Small delay for UX
+    }, 500);
   }
 
-  /**
-   * Scrolls the chat thread to the bottom.
-   * It finds the last chat row and uses scrollIntoView for smooth scrolling.
-   */
   private scrollToBottom(): void {
-    // Use setTimeout with 0ms to ensure the DOM has rendered the new messages
     setTimeout(() => {
       if (this.chatThread?.nativeElement) {
         this.chatThread.nativeElement.scrollTop = this.chatThread.nativeElement.scrollHeight;

@@ -26,7 +26,7 @@ export class DocumentsComponent implements OnInit {
   }
 
   edit(file: any) {
-    alert(`Editing: ${file.fileName}`); // Add modal/edit later
+    alert(`Editing: ${file.fileName}`); 
   }
 
   goToUploadPage() {

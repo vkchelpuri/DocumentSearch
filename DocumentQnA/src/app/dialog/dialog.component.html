@@ -1,13 +1,9 @@
-<!-- src/app/dialog/dialog.component.html -->
 <h2 mat-dialog-title>
-  <!-- Display title from injected data -->
   {{ data.title }}
 </h2>
 <mat-dialog-content>
-  <!-- Display message from injected data -->
   <p>{{ data.message }}</p>
 
-  <!-- Conditionally display specific content for upload success -->
   <ng-container *ngIf="data.showUploadButtons">
     <p>Would you like to upload another or view your documents?</p>
   </ng-container>

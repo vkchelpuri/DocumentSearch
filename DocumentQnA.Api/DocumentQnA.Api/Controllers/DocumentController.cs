@@ -1,12 +1,9 @@
-﻿// Controllers/DocumentController.cs
-using DocumentQnA.Api.Data;
+﻿using DocumentQnA.Api.Data;
 using DocumentQnA.Api.Models;
 using DocumentQnA.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization; // Required for [Authorize]
-using System.Security.Claims; // Required for accessing user claims
-using System.IO; // Required for Path, FileStream
 
 namespace DocumentQnA.Api.Controllers
 {
@@ -14,7 +11,7 @@ namespace DocumentQnA.Api.Controllers
     /// API controller for managing documents, including viewing, uploading, and deleting.
     /// All actions in this controller require user authentication.
     /// </summary>
-    [Authorize] // Requires authentication for all actions in this controller
+    [Authorize] 
     [Route("api/[controller]")]
     [ApiController]
     public class DocumentController : ControllerBase
@@ -22,7 +19,7 @@ namespace DocumentQnA.Api.Controllers
         private readonly IWebHostEnvironment _env;
         private readonly ITextExtractor _extractor;
         private readonly AppDbContext _db;
-        private readonly IGeminiServices _geminiServices; // NEW: Inject IGeminiServices
+        private readonly IGeminiServices _geminiServices; 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentController"/> class.
@@ -30,13 +27,13 @@ namespace DocumentQnA.Api.Controllers
         /// <param name="env">The web host environment service.</param>
         /// <param name="extractor">The text extraction service.</param>
         /// <param name="db">The application's database context.</param>
-        /// <param name="geminiServices">The Gemini AI services for embedding generation.</param> // NEW: Add to docs
-        public DocumentController(IWebHostEnvironment env, ITextExtractor extractor, AppDbContext db, IGeminiServices geminiServices) // NEW: Inject IGeminiServices
+        /// <param name="geminiServices">The Gemini AI services for embedding generation.</param> 
+        public DocumentController(IWebHostEnvironment env, ITextExtractor extractor, AppDbContext db, IGeminiServices geminiServices) 
         {
             _env = env;
             _extractor = extractor;
             _db = db;
-            _geminiServices = geminiServices; // NEW: Assign injected service
+            _geminiServices = geminiServices; 
         }
 
         /// <summary>
@@ -81,7 +78,7 @@ namespace DocumentQnA.Api.Controllers
 
             string tempPath = string.Empty;
             string extractedText = string.Empty;
-            double[]? embedding = null; // Initialize embedding
+            double[]? embedding = null; 
 
             try
             {
@@ -91,7 +88,6 @@ namespace DocumentQnA.Api.Controllers
                 // Extract text from file
                 extractedText = await _extractor.ExtractTextAsync(tempPath);
 
-                // NEW: Generate embedding for the extracted text
                 if (!string.IsNullOrWhiteSpace(extractedText))
                 {
                     embedding = await _geminiServices.GenerateEmbeddingAsync(extractedText);
@@ -115,7 +111,7 @@ namespace DocumentQnA.Api.Controllers
                     FileName = file.FileName,
                     RawText = extractedText,
                     UploadedAt = DateTime.UtcNow,
-                    VectorEmbedding = embedding // NEW: Assign the generated embedding
+                    VectorEmbedding = embedding 
                 };
 
                 _db.DocumentTexts.Add(document);
@@ -194,7 +190,7 @@ namespace DocumentQnA.Api.Controllers
         /// <param name="id">The ID of the document to delete.</param>
         /// <returns>An HTTP 204 No Content on successful deletion, 404 Not Found, or 403 Forbidden.</returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")] // Only users with the "Admin" role can delete documents
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var doc = await _db.DocumentTexts.FindAsync(id);

@@ -4,8 +4,17 @@
       <div class="bubble user-bubble">{{ msg.question }}</div>
 
       <div class="ai-response">
-        <div class="bubble ai-bubble" [innerHTML]="msg.answer | markdownToHtml"></div>
-        <div class="caption" *ngIf="msg.sourceDocument && msg.sourceDocument !== 'None' && msg.sourceDocument.trim() !== ''">
+        <!-- 👇 Show loading animation while waiting -->
+        <div *ngIf="msg.loading" class="loading-bubble">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+
+        <!-- 👇 Show actual answer when ready -->
+        <div *ngIf="!msg.loading" class="bubble ai-bubble" [innerHTML]="msg.answer | markdownToHtml"></div>
+
+        <div class="caption" *ngIf="msg.sourceDocument && msg.sourceDocument !== 'None' && msg.sourceDocument.trim() !== '' && !msg.loading">
           Based on <strong>{{ msg.sourceDocument }}</strong>
         </div>
       </div>

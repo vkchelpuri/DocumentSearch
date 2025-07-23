@@ -1,11 +1,7 @@
-﻿// Controllers/QuestionController.cs
-using DocumentQnA.Api.Data;
-using DocumentQnA.Api.Models;
+﻿using DocumentQnA.Api.Data;
 using DocumentQnA.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq; // Added for .Select and .Any
-using System; // Added for Exception
 
 namespace DocumentQnA.Api.Controllers
 {
@@ -18,14 +14,14 @@ namespace DocumentQnA.Api.Controllers
     public class QuestionController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly IGeminiServices _gemini; // Changed to use the interface
+        private readonly IGeminiServices _gemini;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QuestionController"/> class.
         /// </summary>
         /// <param name="context">The application's database context.</param>
-        /// <param name="gemini">The Gemini AI service for generating responses (injected as interface).</param>
-        public QuestionController(AppDbContext context, IGeminiServices gemini) // Changed constructor parameter
+        /// <param name="gemini">The Gemini AI service for generating responses.</param>
+        public QuestionController(AppDbContext context, IGeminiServices gemini)
         {
             _context = context;
             _gemini = gemini;
@@ -54,7 +50,6 @@ namespace DocumentQnA.Api.Controllers
                 ));
             }
 
-            // UPDATED SYSTEM INSTRUCTION: Make it much stricter
             string systemInstruction = @"You are a helpful assistant for document search.
 Your primary goal is to answer questions *ONLY* based on the 'Document Content:' provided below.
 If you cannot find the answer *strictly* within the provided documents, you MUST respond with: 'answer: I cannot find the answer to your question in the provided documents. Please try rephrasing or upload more relevant documents.'
@@ -91,13 +86,12 @@ Here are the documents for your reference:
 
             try
             {
-                // Call the Gemini service using the interface and the correct method
                 var (answer, sourceDocument) = await _gemini.GetAnswerWithDocumentAsync(fullPrompt);
 
                 return Ok(new
                 {
                     answer = answer ?? "No response",
-                    sourceDocument = sourceDocument // This will already be "None" if not found by GeminiService
+                    sourceDocument = sourceDocument 
                 });
             }
             catch (Exception ex)

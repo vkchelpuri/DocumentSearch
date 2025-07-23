@@ -1,46 +1,39 @@
-// Program.cs
 using DocumentQnA.Api.Data;
-using DocumentQnA.Api.Models; // Required for ApplicationUser
-using DocumentQnA.Api.Services; // IMPORTANT: Ensure this using directive is present
+using DocumentQnA.Api.Models; 
+using DocumentQnA.Api.Services; 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity; // Required for Identity
-using Microsoft.AspNetCore.Authentication.JwtBearer; // Required for JWT Bearer authentication
-using Microsoft.IdentityModel.Tokens; // Required for SymmetricSecurityKey
-using System.Text; // Required for Encoding
-using Microsoft.OpenApi.Models; // Required for Swagger JWT configuration
-using Microsoft.Extensions.Logging; // Required for ILogger
-using System.Reflection; // Required for MethodInfo
+using Microsoft.AspNetCore.Identity; 
+using Microsoft.AspNetCore.Authentication.JwtBearer; 
+using Microsoft.IdentityModel.Tokens;
+using System.Text; 
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure CORS policy to allow frontend communication
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // Replace with your frontend URL in production
+        policy.WithOrigins("http://localhost:4200") 
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
 });
 
-// Add DbContext and configure SQL Server connection
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configure ASP.NET Core Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    // Configure password options (adjust as per your security requirements)
-    options.SignIn.RequireConfirmedAccount = false; // Set to true for email confirmation
+    options.SignIn.RequireConfirmedAccount = false; 
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 6;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
     options.Password.RequireLowercase = false;
 })
-.AddEntityFrameworkStores<AppDbContext>() // Specifies AppDbContext as the store for Identity
-.AddDefaultTokenProviders(); // Adds default token providers for password resets, etc.
+.AddEntityFrameworkStores<AppDbContext>() 
+.AddDefaultTokenProviders(); 
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
@@ -128,7 +121,6 @@ builder.Services.AddSwaggerGen(c =>
 
 // Register custom services
 builder.Services.AddScoped<ITextExtractor, TextExtractor>();
-// CORRECTED: Use AddHttpClient for typed client to properly inject HttpClient into GeminiServices
 builder.Services.AddHttpClient<IGeminiServices, GeminiServices>(); // This is the fix for HttpClient
 builder.Services.AddScoped<IAuthService, AuthService>(); // Register the AuthService
 
@@ -153,7 +145,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -164,7 +155,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowFrontend");
 
-app.UseAuthentication(); // IMPORTANT: Must be called before UseAuthorization
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers();

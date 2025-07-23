@@ -1,9 +1,9 @@
-import { Component, ViewChild, ElementRef, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ApiService } from '../api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { DialogComponent } from '../dialog/dialog.component';
-import { HttpErrorResponse } from '@angular/common/http'; // Import HttpErrorResponse for error typing
+import { DialogComponent, DialogData } from '../dialog/dialog.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload',
@@ -15,13 +15,13 @@ export class UploadComponent {
   documentId: number | null = null;
   fileName = '';
   loading = false;
-  @ViewChild('fileInput') fileInput!: ElementRef; // Ensure this matches the template
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   constructor(
     private api: ApiService,
     private dialog: MatDialog,
     private router: Router
-  ) {}
+  ) { }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -33,51 +33,56 @@ export class UploadComponent {
 
     this.loading = true;
 
-    // UPDATED: Changed uploadFile() to uploadDocument() and explicitly typed 'res'
     this.api.uploadDocument(this.selectedFile).subscribe({
-      next: (res: { documentId: number; fileName: string; message: string }) => { // Explicitly type 'res'
+      next: (res: { documentId: number; fileName: string; message: string }) => {
         this.documentId = res.documentId;
-        // Replaced alert with console.log as alerts are discouraged in Angular Material contexts
-        console.log(`Uploaded: ${res.fileName}. Message: ${res.message}`);
         this.loading = false;
-        this.resetFileInput(); // Call this method after successful upload
+        this.resetFileInput();
 
-        // Open dialog to confirm upload
+        const dialogData: DialogData = {
+          title: 'Upload Successful',
+          message: `File '${res.fileName}' uploaded successfully!`,
+          showUploadButtons: true
+        };
+
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '400px',
           disableClose: true,
-          data: { title: 'Upload Successful', message: `File '${res.fileName}' uploaded successfully!` } // Pass data to dialog
+          data: dialogData
         });
 
-        // Optionally, subscribe to dialog close if you need to do something after it's closed
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-          // Example: navigate to documents page after upload
-          this.router.navigate(['/documents']);
+          if (result === 'documents') {
+            this.router.navigate(['/documents']);
+          } else if (result === 'upload') {
+            // Stay on upload page, input is already reset
+          }
         });
       },
-      error: (err: HttpErrorResponse) => { // Explicitly type 'err'
+      error: (err: HttpErrorResponse) => {
         console.error('Upload failed:', err);
-        // Display a more informative error message
+
         const errorMessage = err.error?.Message || 'Upload failed. Please try again.';
+
+        const dialogData: DialogData = {
+          title: 'Upload Failed',
+          message: errorMessage,
+          showUploadButtons: false
+        };
+
         this.dialog.open(DialogComponent, {
           width: '400px',
           disableClose: true,
-          data: { title: 'Upload Failed', message: errorMessage }
+          data: dialogData
         });
         this.loading = false;
-        // Optionally, you might want to reset on error too, or handle differently
-        // this.resetFileInput();
       }
     });
   }
 
-  // New method to reset the file input
   resetFileInput() {
-    this.selectedFile = null; // Clear the stored file
-    this.fileName = ''; // Clear the file name display
-
-    // This is the crucial part: reset the native input element
+    this.selectedFile = null;
+    this.fileName = '';
     if (this.fileInput && this.fileInput.nativeElement) {
       this.fileInput.nativeElement.value = '';
     }

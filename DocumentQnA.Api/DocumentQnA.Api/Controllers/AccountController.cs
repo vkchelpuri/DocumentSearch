@@ -1,10 +1,6 @@
-﻿// Controllers/AccountController.cs
-using Microsoft.AspNetCore.Mvc;
-using DocumentQnA.Api.Services; // Required for IAuthService
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization; // Required for [Authorize] attribute
-using System.Security.Claims; // Required for accessing user claims (though not directly used in this specific controller, good practice for auth controllers)
-using System.Collections.Generic; // Required for List
+﻿using Microsoft.AspNetCore.Mvc;
+using DocumentQnA.Api.Services; 
+using Microsoft.AspNetCore.Authorization;
 
 namespace DocumentQnA.Api.Controllers
 {
